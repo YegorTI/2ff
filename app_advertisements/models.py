@@ -29,7 +29,10 @@ class Advertisements(models.Model):
                 '<span style="color: green; font-weight: bold;">Сегодня в {}</span>', created_time
             )
         return self.created_at.strftime("%d.%m.%Y в %H:%M:%S")
-
+    @admin.display(description='Фото')
+    def get_html_image(self):
+        if self.image:
+            return format_html('<img src="{url}" style="max_width; 80px; max-height; 80px;"/>', url = self.image.url)
 
 class Meta:
     db_table = "advertisements"
