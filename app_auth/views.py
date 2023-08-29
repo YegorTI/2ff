@@ -2,11 +2,20 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.generic import CreateView
+from .forms import CreationForm
 
-# Create your views here.
+class SignUp(CreateView):
+    form_class = CreationForm
+    success_url = reverse_lazy('profile')
+    template_name = 'templates/app_auth/register.html'
+
 def logout_view(request):
     logout(request)
     return redirect(reverse('login'))
+
+def register_view(request):
+    return render(request, 'app_auth/register.html')
 
 @login_required(login_url=reverse_lazy('login'))
 def profile_view(request):
